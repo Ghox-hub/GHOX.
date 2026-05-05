@@ -5,16 +5,10 @@
   <meta charset="UTF-8">
   <title>GHOX</title>
 
-  <!-- Fuente estilo documento importante -->
-
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;800&display=swap" rel="stylesheet">
 
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       background: radial-gradient(circle at center, #0a0a0a 0%, #000000 100%);
@@ -86,6 +80,7 @@
       20%, 24%, 55% { opacity: 0.4; }
     }
 
+    /* ===== TEXTO ===== */
     p {
       font-size: 1.1em;
       line-height: 1.8;
@@ -110,6 +105,11 @@
     p:nth-child(14){ animation-delay: 13s; }
     p:nth-child(15){ animation-delay: 14s; }
     p:nth-child(16){ animation-delay: 15s; }
+    p:nth-child(17){ animation-delay: 16s; }
+    p:nth-child(18){ animation-delay: 17s; }
+    p:nth-child(19){ animation-delay: 18s; }
+    p:nth-child(20){ animation-delay: 19s; }
+    p:nth-child(21){ animation-delay: 20s; }
 
     @keyframes fadeIn {
       from { opacity: 0; }
@@ -121,7 +121,28 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Líneas tipo interferencia */
+    /* ===== CONTADOR ===== */
+    #countdown {
+      margin-top: 25px;
+      font-size: 1.2em;
+      letter-spacing: 2px;
+      color: #ffffff;
+      text-shadow: 0 0 8px rgba(255,255,255,0.2);
+      opacity: 0;
+      animation: reveal 1s forwards;
+      animation-delay: 22s;
+    }
+
+    /* ===== MENSAJE SECRETO ===== */
+    #secret {
+      margin-top: 20px;
+      color: red;
+      font-size: 1.2em;
+      opacity: 0;
+      transition: 0.5s;
+    }
+
+    /* Interferencia */
     body::after {
       content: "";
       position: absolute;
@@ -176,9 +197,50 @@
 <p>Y le tendrán respeto.</p>
 
 <p>Esto recién empieza.</p>
+
+<div id="countdown"></div>
+<div id="secret">EL EN ESTE MOMENTO ESTA EN ARGENTINA.</div>
 ```
 
   </div>
+
+  <script>
+    /* CONTADOR */
+    const targetDate = new Date("Jan 1, 2027 00:00:00").getTime();
+    const countdown = document.getElementById("countdown");
+
+    setInterval(() => {
+      const now = new Date().getTime();
+      const diff = targetDate - now;
+
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutes = Math.floor((diff / (1000 * 60)) % 60);
+      const seconds = Math.floor((diff / 1000) % 60);
+
+      countdown.innerHTML =
+        "FALTA: " +
+        days + "d " +
+        hours + "h " +
+        minutes + "m " +
+        seconds + "s";
+    }, 1000);
+
+    /* CODIGO SECRETO */
+    let input = "";
+
+    document.addEventListener("keydown", (e) => {
+      input += e.key;
+
+      if (input.includes("2027")) {
+        document.getElementById("secret").style.opacity = "1";
+      }
+
+      if (input.length > 10) {
+        input = input.slice(-10);
+      }
+    });
+  </script>
+
 </body>
 </html>
-
